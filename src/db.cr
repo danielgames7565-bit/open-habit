@@ -10,26 +10,23 @@ module Db
   end
 
   def self.setup
-    connection.exec <<-SQL
-      CREATE TABLE IF NOT EXISTS users (
-        id SERIAL PRIMARY KEY,
-        created_at TIMESTAMP DEFAULT NOW()
-      );
+  connection.exec("CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    created_at TIMESTAMP DEFAULT NOW()
+  )")
 
-      CREATE TABLE IF NOT EXISTS user_progress (
-        id SERIAL PRIMARY KEY,
-        user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-        habit TEXT NOT NULL,
-        actions TEXT NOT NULL,
-        completed BOOLEAN DEFAULT FALSE,
-        day INTEGER NOT NULL,
-        action_date DATE NOT NULL DEFAULT CURRENT_DATE,
-        created_at TIMESTAMP DEFAULT NOW(),
-        UNIQUE(user_id, action_date)
-      );
-    SQL
-  end
-
+  connection.exec("CREATE TABLE IF NOT EXISTS user_progress (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    habit TEXT NOT NULL,
+    actions TEXT NOT NULL,
+    completed BOOLEAN DEFAULT FALSE,
+    day INTEGER NOT NULL,
+    action_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    created_at TIMESTAMP DEFAULT NOW(),
+    UNIQUE(user_id, action_date)
+  )")
+end
   def self.register_user(user_id : Int32)
     connection.exec("INSERT INTO users (id) VALUES ($1) ON CONFLICT DO NOTHING", user_id)
   end
