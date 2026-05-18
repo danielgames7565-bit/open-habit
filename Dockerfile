@@ -1,8 +1,12 @@
-FROM alpine:3.19
+FROM ubuntu:22.04
+
+RUN apt-get update && apt-get install -y \
+    libpcre2-8-0 \
+    libgcc-s1 \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-
-RUN apk add --no-cache libc6-compat postgresql-client
 
 COPY server /app/server
 
