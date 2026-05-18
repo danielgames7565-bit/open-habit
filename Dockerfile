@@ -2,15 +2,11 @@ FROM alpine:3.19
 
 WORKDIR /app
 
+RUN apk add --no-cache libc6-compat postgresql-client
 
-# Copy  pre-built Crystal binary
 COPY server /app/server
 
-
-# Make binary executable
 RUN chmod +x /app/server
-
-# Create start script
 
 EXPOSE 3000
 
