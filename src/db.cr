@@ -27,7 +27,7 @@ module Db
     UNIQUE(user_id, action_date)
   )")
 end
-  def self.register_user(user_id : Int32)
+  def self.register_user(user_id : Int64)
     connection.exec("INSERT INTO users (id) VALUES ($1) ON CONFLICT DO NOTHING", user_id)
   end
 
@@ -39,7 +39,7 @@ end
     )
   end
 
-  def self.get_todays_progress(user_id : Int32, action_date : String)
+  def self.get_todays_progress(user_id : Int64, action_date : String)
     result = connection.query_one?(
       "SELECT actions, completed, day FROM user_progress WHERE user_id = $1 AND action_date::text = $2",
       user_id, action_date, as: {String, Bool, Int32}
@@ -47,7 +47,7 @@ end
     result
   end
 
-  def self.get_progress_by_date(user_id : Int32, action_date : String)
+  def self.get_progress_by_date(user_id : In64, action_date : String)
     result = connection.query_one?(
       "SELECT actions, completed, day FROM user_progress WHERE user_id = $1 AND action_date::text = $2",
       user_id, action_date, as: {String, Bool, Int32}
@@ -55,7 +55,7 @@ end
     result
   end
 
-  def self.get_all_progress(user_id : Int32)
+  def self.get_all_progress(user_id : Int64)
     results = connection.query_all(
       "SELECT actions, completed, day, action_date FROM user_progress WHERE user_id = $1 ORDER BY action_date DESC",
       user_id, as: {String, Bool, Int32, Time}
@@ -70,7 +70,7 @@ end
     end
   end
 
-  def self.get_progress_range(user_id : Int32, start_date : String, end_date : String)
+  def self.get_progress_range(user_id : Int64, start_date : String, end_date : String)
     results = connection.query_all(
       "SELECT actions, completed, day, action_date FROM user_progress WHERE user_id = $1 AND action_date BETWEEN $2 AND $3 ORDER BY action_date ASC",
       user_id, start_date, end_date, as: {String, Bool, Int32, Time}
@@ -85,7 +85,7 @@ end
     end
   end
 
-  def self.update_progress(user_id : Int32, action_date : String, completed : Bool)
+  def self.update_progress(user_id : Int64, action_date : String, completed : Bool)
     connection.exec(
       "UPDATE user_progress SET completed = $1 WHERE user_id = $2 AND action_date::text = $3",
       completed, user_id, action_date
