@@ -1,14 +1,21 @@
-FROM ubuntu:22.04
-
-RUN apt-get update && apt-get install -y \
-    libpcre2-8-0 \
-    libgcc-s1 \
-    ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
+FROM crystallang/crystal:1.14.0-alpine AS builder
 
 WORKDIR /app
 
-COPY server /app/server
+COPY shard.yml ./
+RUN shards install --production
+
+COPY src/ ./src/
+
+RUN crystal build src/server.cr --release --static --no-debug -o server
+
+FROM alpine:3.19
+
+RUN apk add --no-cache libc6-compat postgresql-client
+
+WORKDIR /app
+
+COPY --from=builder /app/server /app/server
 
 RUN chmod +x /app/server
 
