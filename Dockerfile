@@ -3,7 +3,7 @@ FROM crystallang/crystal:1.14.0-alpine AS builder
 WORKDIR /app
 
 COPY shard.yml ./
-RUN shards install --production
+RUN shards install 
 
 COPY src/ ./src/
 
