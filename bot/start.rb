@@ -20,7 +20,7 @@ class Start
     end
 
     def send_to_server(user_id)
-        url = "http://open-habit-server.onrender.com/register"
+        url = "http://open-habit.onrender.com/register"
         response = HTTParty.post(url,headers: {'Content-Type' => 'application/json'}, body: { user_id: user_id }.to_json)
         if response.code == 200
             200
