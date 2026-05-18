@@ -13,7 +13,7 @@ class Progress
     end
 
     def ask_server(user_id, ctx)
-        url = "https://open-habit-server.onrender.com"
+        url = "https://open-habit.onrender.com"
         request = HTTParty.get("#{url}/progress/#{user_id}", headers: {'Content-Type' => 'application/json'})
         data = response.parsed_response
         if data["streak"] > 0
