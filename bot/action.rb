@@ -13,7 +13,7 @@ class Action
     end
 
     def ask_server(user_id, ctx)
-        url = "https://open-habit-server.onrender.com/daily-action"
+        url = "https://open-habit.onrender.com/daily-action"
         habit = ctx.session[:habit]
         response = HTTParty.post(url,headers: {'Content-Type' => 'application/json'}, body: { user_id: user_id, habit: habit }.to_json)
         if response.code == 200
