@@ -1,6 +1,6 @@
 module Auth
 
- def self.check_user_exists(user_id : Int64) : Int64?
+ def self.check_user_exists(user_id : Int64) : Int32?
    result = Db.connection.query_one?("SELECT id FROM users WHERE id = $1", user_id, as: {Int32})
    result
  end
