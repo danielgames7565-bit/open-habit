@@ -14,7 +14,7 @@ class Done
     end
 
     def send_done_to_server(user_id, habit, ctx)
-        url = "https://open-habit-server.onrender.com/update-progress"
+        url = "https://open-habit.onrender.com/update-progress"
         response = HTTParty.post(url,headers: {'Content-Type' => 'application/json'}, body: { user_id: user_id, completed: true }.to_json)
         if response.code == 200
             ctx.reply("Your progress has been recorded successfully!, great job on completing today's action! Keep up the good work!")
