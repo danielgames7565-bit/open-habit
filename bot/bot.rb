@@ -17,5 +17,5 @@ Action.new(bot)
 
 puts "all files ready"
 
-bot.webhook.run
+bot.start_polling
 puts "bot has started "
